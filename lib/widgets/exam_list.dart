@@ -40,6 +40,9 @@ class ExamList extends StatelessWidget {
                           style: const TextStyle(color: Colors.grey)),
                       Text("Date: ${exam.date.toUtc().toString()}",
                           style: const TextStyle(color: Colors.grey)),
+                      if (exam.location != null)
+                        Text("Location: ${exam.location}",
+                            style: const TextStyle(color: Colors.grey)),
                     ],
                   ),
                   trailing: IconButton(

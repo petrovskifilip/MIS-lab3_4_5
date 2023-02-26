@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import '../model/exam.dart';
 import '../widgets/exam_list.dart';
 
@@ -17,11 +19,22 @@ class _ExamScheduleScreenState extends State<ExamScheduleScreen> {
         timeSlot: "10:00 - 12:00"),
   ];
 
+  Future<String?> _getLocation() async {
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    List<Placemark> placemarks =
+    await placemarkFromCoordinates(position.latitude, position.longitude);
+    return placemarks.first.name;
+  }
 
-  void _addExam() {
+  void _addExam() async {
+    String? location = await _getLocation();
     setState(() {
       exams.add(Exam(
-          subject: "Ispit", date: DateTime.now(), timeSlot: "9:00 - 11:00"));
+          subject: "Ispit",
+          date: DateTime.now(),
+          timeSlot: "9:00 - 11:00",
+          location: location));
     });
   }
 
